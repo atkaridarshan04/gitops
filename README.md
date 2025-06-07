@@ -57,14 +57,13 @@ kubectl -n argocd get svc argocd-server
 ```
 
 Open in browser at:
-**[http://localhost](http://localhost:30080)**
+**[http://localhost:30080](http://localhost:30080)**
 
 Get initial password:
 
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
-
 
 ### 3. Deploy the Root ArgoCD Application
 
@@ -85,7 +84,6 @@ Also check using
 ```bash
 kubectl get all -n mern-devops
 ```
-
 
 ## 🔄 Updating the App
 
