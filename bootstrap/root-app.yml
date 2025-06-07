@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/atkaridarshan04/gitops.git
     targetRevision: main
-    path: applications
+    path: /bootstrap/app
     directory:
       recurse: true
   syncPolicy:
