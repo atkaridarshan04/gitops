@@ -8,20 +8,17 @@ This project demonstrates a **GitOps pipeline** using ArgoCD and Helm. It follow
 ```
 .
 ├── argocd
-│   └── helm-values.yml           # Custom values for installing ArgoCD via Helm (e.g. service type, RBAC, config)
-│
-├── bootstrap                     # GitOps bootstrap layer (App of Apps pattern)
+│   └── helm-values.yml      
+├── bootstrap                     
 │   ├── app
-│   │   └── app.yml               # ArgoCD Application manifest that deploys your actual Helm chart from helm-chart/
-│   └── root-app.yml             # Root ArgoCD Application that bootstraps all other apps from /bootstrap/app
-│
-├── helm-chart                    # Application Helm chart
+│   │   └── app.yml         
+│   └── root-app.yml             
+├── helm-chart            
 │   ├── Chart.yaml                
 │   ├── templates                 
 │   └── values.yaml              
-│
 ├── README.md
-└── setup.md                      # Install Helm and Setup k8s cluster
+└── setup.md          # Install Helm and Setup k8s cluster
 ```
 
 ## 🎯 Key Concepts
@@ -44,7 +41,11 @@ You can install ArgoCD locally using Helm:
 
 ```bash
 helm repo add argo https://argoproj.github.io/argo-helm
-helm install argocd argo/argo-cd -n argocd --create-namespace -f helm-values.yaml
+helm repo update
+
+helm install argocd argo/argo-cd \
+  -n argocd --create-namespace \
+  -f argocd/helm-values.yaml
 ````
 
 > ⚠️ Use `NodePort` service for local access (`helm-values.yaml` should reflect this)
