@@ -1,24 +1,27 @@
 # 🚀 GitOps Deployment with ArgoCD & Helm
 
-This project demonstrates a **production-grade GitOps pipeline** using ArgoCD and Helm. It follows the **"App of Apps"** pattern to manage and deploy Kubernetes workloads declaratively via Git.
+This project demonstrates a **GitOps pipeline** using ArgoCD and Helm. It follows the **"App of Apps"** pattern to manage and deploy Kubernetes workloads declaratively via Git.
 
 
 ## 🧱 Project Structure
 
-```graphql
+```
 .
 ├── argocd
-│   └── helm-values.yml
-├── bootstrap
+│   └── helm-values.yml           # Custom values for installing ArgoCD via Helm (e.g. service type, RBAC, config)
+│
+├── bootstrap                     # GitOps bootstrap layer (App of Apps pattern)
 │   ├── app
-│   │   └── app.yml
-│   └── root-app.yml
-├── helm-chart
-│   ├── Chart.yaml
-│   ├── templates
-│   └── values.yaml
+│   │   └── app.yml               # ArgoCD Application manifest that deploys your actual Helm chart from helm-chart/
+│   └── root-app.yml             # Root ArgoCD Application that bootstraps all other apps from /bootstrap/app
+│
+├── helm-chart                    # Application Helm chart
+│   ├── Chart.yaml                
+│   ├── templates                 
+│   └── values.yaml              
+│
 ├── README.md
-└── setup.md
+└── setup.md                      # Install Helm and Setup k8s cluster
 ```
 
 ## 🎯 What We're Doing (and Why)
@@ -28,15 +31,6 @@ This project demonstrates a **production-grade GitOps pipeline** using ArgoCD an
 | **Helm Chart** | Packages your app for reusable, parameterized Kubernetes deployment     |
 | **ArgoCD**     | GitOps controller that keeps your cluster in sync with your Git repo    |
 | **Bootstrap**  | Central repo/folder that defines _what_ ArgoCD should manage and deploy |
-
-
-## ✅ What This Setup Enables
-
-- 🔄 **Continuous Delivery**: Git push = automatic app deployment
-- 🧪 **Drift Detection**: ArgoCD alerts or fixes changes made outside Git
-- 🔒 **Secure & Auditable**: Git becomes the source of truth
-- ☸️ **Environment Ready**: Easily scale to dev/staging/prod clusters
-- 📦 **Reusable Helm Chart**: Clean separation of code and config
 
 
 ## 🚀 Setup Instructions
@@ -80,6 +74,16 @@ kubectl apply -f bootstrap/root-app.yaml
 ```
 
 > ArgoCD will now auto-sync and deploy your Helm-based app!
+
+### 4. Verify the Deployments
+Go to Argo Dashboard verify deployments
+![argo-dash](./argo-dash.png)
+
+
+Also check using 
+```bash
+kubectl get all -n mern-devops
+```
 
 
 ## 🔄 Updating the App
