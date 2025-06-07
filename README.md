@@ -24,13 +24,14 @@ This project demonstrates a **GitOps pipeline** using ArgoCD and Helm. It follow
 └── setup.md                      # Install Helm and Setup k8s cluster
 ```
 
-## 🎯 What We're Doing (and Why)
+## 🎯 Key Concepts
 
-| Component      | Purpose                                                                 |
-|----------------|-------------------------------------------------------------------------|
-| **Helm Chart** | Packages your app for reusable, parameterized Kubernetes deployment     |
-| **ArgoCD**     | GitOps controller that keeps your cluster in sync with your Git repo    |
-| **Bootstrap**  | Central repo/folder that defines _what_ ArgoCD should manage and deploy |
+| Component            | Role & Purpose                                                                                                                                                                                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ArgoCD**           | A GitOps controller that continuously syncs your Kubernetes cluster with the desired state defined in Git. It ensures automation, visibility, and consistency across environments.                                                                                                                                        |
+| **Bootstrap Folder** | Acts as the single source of truth for ArgoCD. It holds a root `Application` manifest that tells ArgoCD which other apps (Helm releases, K8s YAMLs, etc.) to manage. This enables scalable and modular management of multiple applications using the **App of Apps** pattern. |
+
+> ⚙️ In essence, the `bootstrap/root-app.yaml` bootstraps the entire GitOps system by pointing ArgoCD to everything it should manage — including your actual app defined via Helm.
 
 
 ## 🚀 Setup Instructions
@@ -55,7 +56,7 @@ kubectl -n argocd get svc argocd-server
 ```
 
 Open in browser at:
-**[http://localhost](http://localhost):30080**
+**[http://localhost](http://localhost:30080)**
 
 Get initial password:
 
@@ -63,7 +64,6 @@ Get initial password:
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
----
 
 ### 3. Deploy the Root ArgoCD Application
 
