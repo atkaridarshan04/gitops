@@ -1,0 +1,26 @@
+server:
+  extraArgs:
+    - --insecure  # Allow HTTP access on NodePort
+
+  service:
+    type: NodePort
+    ports:
+      http: 8080  # Internal port (optional; can omit)
+      https: 8443 # Optional if you ever use TLS
+
+  config:
+    url: http://localhost:30080  # Will match exposed NodePort
+    admin.enabled: true          # Enable default admin login
+    exec.enabled: true           # Enable terminal for testing
+
+configs:
+  params:
+    server.insecure: true        # Required for insecure UI
+
+  cm:
+    application.instanceLabelKey: argocd.argoproj.io/instance
+
+  rbac:
+    policy.default: role:admin
+    policy.csv: |
+      g, everyone, role:admin

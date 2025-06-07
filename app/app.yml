@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-helm-app
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mern-devops
+  source:
+    repoURL: https://github.com/atkaridarshan04/gitops.git
+    targetRevision: main
+    path: helm-chart  # Because your Helm chart is in root
+    # helm:
+    #   valueFiles:
+    #     - values-prod.yaml  # Optional override
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
